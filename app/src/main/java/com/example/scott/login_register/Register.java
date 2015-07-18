@@ -1,18 +1,19 @@
 package com.example.scott.login_register;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class Register extends ActionBarActivity implements View.OnClickListener {
 
     Button bRegister;
     EditText etName, etAge, etUsername, etPassword;
+    TextView tvLoginLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,22 +25,38 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bRegister = (Button) findViewById(R.id.bRegister);
+        tvLoginLink = (TextView) findViewById(R.id.tvLoginLink);
 
         bRegister.setOnClickListener(this);
-
+        tvLoginLink.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.bRegister:
+                User user = new User();
+
                 String name = etName.getText().toString();
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
-                int age = Integer.parseInt(etAge.getText().toString());
 
-                User user = new User(name, age, username, password);
+                if(user.isValidAgePattern(etAge.getText().toString())) {
+                    int age = Integer.parseInt(etAge.getText().toString());
 
+                    user.update(username, password, name, age);
+                    if(user.isValidUsernamePattern() && user.isValidPasswordPattern() && user.isValidNamePattern()) {
+                        if(MainActivity.userDB.addUser(user) == 1) {
+                            MainActivity.sessionUser.update(user);
+                            startActivity(new Intent(this, ShowInformation.class));
+                        }
+                    }
+                }
+
+                break;
+
+            case R.id.tvLoginLink:
+                onBackPressed();
                 break;
         }
     }
