@@ -44,7 +44,7 @@ public class UserDB extends SQLiteOpenHelper {
 
     // Getting User Count
     public int getUserCount(User user) {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE username = '" + user.username + "'";
+        String countQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE username = '" + user.getUsername() + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int result = cursor.getCount();

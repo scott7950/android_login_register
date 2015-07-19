@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class User {
-    String name, username, password;
-    int age;
-    int userType;
+    private String name, username, password;
+    private int age;
+    private int userType;
 
     public User() {
         userType = -1;
