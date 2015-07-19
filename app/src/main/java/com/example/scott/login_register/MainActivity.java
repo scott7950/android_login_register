@@ -40,13 +40,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         switch(v.getId()) {
             case R.id.bLogin:
-
-
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 User user = new User(username, password);
                 if(user.isValidUsernamePattern() && user.isValidPasswordPattern()) {
                     if(MainActivity.userDB.authUser(user) == 1) {
+                        clearData();
                         MainActivity.sessionUser.update(user);
                         startActivity(new Intent(this, ShowInformation.class));
                     }
@@ -54,8 +53,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
 
             case R.id.tvRegisterLink:
+                clearData();
                 startActivity(new Intent(this, Register.class));
                 break;
         }
+    }
+
+    private void clearData() {
+        etUsername.setText("");
+        etPassword.setText("");
     }
 }

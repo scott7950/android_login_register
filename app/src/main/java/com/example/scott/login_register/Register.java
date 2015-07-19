@@ -47,6 +47,7 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
                     user.update(username, password, name, age);
                     if(user.isValidUsernamePattern() && user.isValidPasswordPattern() && user.isValidNamePattern()) {
                         if(MainActivity.userDB.addUser(user) == 1) {
+                            clearData();
                             MainActivity.sessionUser.update(user);
                             startActivity(new Intent(this, ShowInformation.class));
                         }
@@ -56,8 +57,16 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
                 break;
 
             case R.id.tvLoginLink:
+                clearData();
                 onBackPressed();
                 break;
         }
+    }
+
+    private void clearData() {
+        etUsername.setText("");
+        etPassword.setText("");
+        etName.setText("");
+        etAge.setText("");
     }
 }
